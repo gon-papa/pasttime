@@ -1,0 +1,1 @@
+docker exec -it pasttime-backend /bin/bash

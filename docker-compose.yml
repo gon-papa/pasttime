@@ -1,0 +1,43 @@
+version: "3"
+
+services:
+  frontend:
+    build: _docker/frontend-node
+    container_name: ${APP_NAME}-frontend
+    volumes:
+      - ./frontend:/app
+    tty: true
+    ports:
+    - 3000:3000
+  backend:
+    build: _docker/backend-php
+    container_name: ${APP_NAME}-backend
+    volumes:
+      - ./:/var/www/
+    expose:
+      - "9000"
+    working_dir: /var/www/backend
+  web:
+    build: _docker/nginx
+    container_name: ${APP_NAME}-web
+    volumes:
+      - ./:/var/www/
+      - ./_docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+    ports:
+      - 80:80
+    depends_on: 
+      - backend
+  db:
+    image: mariadb
+    platform: linux/x86_64
+    container_name: ${APP_NAME}-db
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - ./_docker/db/mysql.cnf:/etc/mysql/conf.d/mysql.cnf
+      - ./_docker/db:/var/lib/mysql/
