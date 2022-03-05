@@ -3,7 +3,7 @@ export default {
   head: {
     title: 'frontend',
     htmlAttrs: {
-      lang: 'en'
+      lang: 'ja'
     },
     meta: [
       { charset: 'utf-8' },
@@ -35,6 +35,17 @@ export default {
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
+    ['nuxt-i18n', {
+      locales: [
+        {
+          code: 'ja',
+          file: 'ja.js'
+        }
+      ],
+      lazy: true,
+      langDir: 'lang/',
+      defaultLocale: 'ja'
+    }]
   ],
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
