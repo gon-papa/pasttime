@@ -6,8 +6,10 @@
             mode="inline"
             theme="dark"
             :inline-collapsed="collapsed"
+            @mouseenter="openCollapsed"
+            @mouseleave="closeCollapsed"
         >
-            <a-button class="sidebar-btn" @click="toggleCollapsed">
+            <a-button class="sidebar-btn" @click="fixedCollapsed">
                 <a-icon :type="collapsed ? 'right' : 'left'" />
             </a-button>
             <a-menu-item key="1">
@@ -62,12 +64,23 @@
 export default {
     data() {
         return {
-            collapsed: false,
+            collapsed: true,
+            fixed: true,
         };
     },
     methods: {
-        toggleCollapsed() {
-            this.collapsed = !this.collapsed;
+        fixedCollapsed() {
+            if(!this.fixed) {
+                this.collapsed = true;
+            }
+            this.fixed = !this.fixed;
+            this.$emit('fixed', this.fixed);
+        },
+        openCollapsed() {
+            if(this.fixed) this.collapsed = false;
+        },
+        closeCollapsed() {
+            if(this.fixed) this.collapsed = true;
         },
     },
 };
