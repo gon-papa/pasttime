@@ -40,4 +40,4 @@ services:
       MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
     volumes:
       - ./_docker/db/mysql.cnf:/etc/mysql/conf.d/mysql.cnf
-      - ./_docker/db:/var/lib/mysql/
+      - ./_docker/db:/var/lib/mysql
