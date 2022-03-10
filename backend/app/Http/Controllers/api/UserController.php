@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\LoginRequest;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -70,17 +71,14 @@ class UserController extends Controller
      * @param
      * @return
      */
-    public function Login(Request $request)
+    public function Login(LoginRequest $request)
     {
-        $credentials = $request->validate([
-            'email' => 'required|email',
-            'password' => 'required'
-        ]);
+        $credentials = $request->only(['email', 'password']);
 
         if (auth()->attempt($credentials)) {
-            return response()->json(['status_code' => 200,'message' => 'success'],200);
+            return response()->json(['status' => 200,'message' => 'success'], 200);
         } else {
-            return response()->json(['status_code' => 500,'message' => 'Unauthorized'],500);
+            return response()->json(['status' => 400,'message' => 'Unauthorized'], 400);
         }
     }
 }
