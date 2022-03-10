@@ -15,7 +15,7 @@ class LoginRequest extends FormRequest
      */
     public function authorize()
     {
-        return $this->path() == 'api/v1/login';
+        return $this->path() === 'api/v1/login';
     }
 
     /**
