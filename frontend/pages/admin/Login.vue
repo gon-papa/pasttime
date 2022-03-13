@@ -11,9 +11,9 @@
                     @submit.native.prevent
                     class="form"
                 >
-                    <a-form-model-item :label="$t('userName')" prop="name">
-                    <a-input v-model="data.name" class="login-input">
-                        <a-icon slot="prefix" type="user" style="color:rgba(0,0,0,.25)" />
+                    <a-form-model-item :label="$t('userEmail')" prop="email">
+                    <a-input v-model="data.email" class="login-input">
+                        <a-icon slot="prefix" type="mail" style="color:rgba(0,0,0,.25)" />
                     </a-input>
                     </a-form-model-item>
                     <a-form-model-item :label="$t('password')" prop="password">
@@ -41,11 +41,11 @@ export default {
     data() {
         return {
             data: {
-                name: "",
+                email: "",
                 password: "",
             },
             rules: {
-                name: [
+                email: [
                     { required: true, message: this.$t('validation.required'), trigger: 'blur' }
                 ],
                 password: [
@@ -65,8 +65,27 @@ export default {
                 }
             })
         },
-        handleSubmit() {
-            this.$router.push('/admin/dashboard');
+        showErrorMessage(response) {
+            if (response.message.hasOwnProperty('email')) {
+                return this.$message.error(response.message.email[0], 2.5);
+            }
+
+            if (response.message.hasOwnProperty('password')) {
+                return this.$message.error(response.message.password[0], 2.5);
+            }
+
+            return this.$message.error(response.message.error, 2.5);
+        },
+        async handleSubmit() {
+            try {
+                await this.$axios.$get('/csrf-cookie');
+                let response = await this.$axios.$post('/login', this.data);
+                this.$router.push('/admin/dashboard');
+                this.$message.success(response.message.success, 2.5);
+            } catch (error) {
+                this.showErrorMessage(error.response.data);
+                console.log(error.response);
+            }
         }
     },
 }
