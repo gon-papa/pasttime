@@ -76,9 +76,9 @@ class UserController extends Controller
         $credentials = $request->only(['email', 'password']);
 
         if (auth()->attempt($credentials)) {
-            return response()->json(['status' => 200,'message' => 'success'], 200);
+            return response()->json(['status' => 200, 'message' => ['success' => 'ログインしました']], 200);
         } else {
-            return response()->json(['status' => 400,'message' => 'Unauthorized'], 400);
+            return response()->json(['status' => 400,'message' => ['error' => '登録されていません']], 400);
         }
     }
 }
