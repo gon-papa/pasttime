@@ -23,7 +23,8 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
-    '@/plugins/antd-ui'
+    '@/plugins/antd-ui',
+    '@/plugins/axios',
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -45,8 +46,18 @@ export default {
       lazy: true,
       langDir: 'lang/',
       defaultLocale: 'ja'
-    }]
+    }],
+    [
+      "@nuxtjs/axios",
+    ],
   ],
+
+  publicRuntimeConfig: {
+    axios: {
+      baseURL: process.env.BASE_URL,
+      credentials: true
+    }
+  },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
