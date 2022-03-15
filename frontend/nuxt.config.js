@@ -25,6 +25,7 @@ export default {
   plugins: [
     '@/plugins/antd-ui',
     '@/plugins/axios',
+    { src: '~/plugins/persistedstate.js', ssr: false},
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -51,12 +52,9 @@ export default {
       "@nuxtjs/axios",
     ],
   ],
-
-  publicRuntimeConfig: {
-    axios: {
-      baseURL: process.env.BASE_URL,
-      credentials: true
-    }
+  axios: {
+    baseURL: process.env.BASE_URL,
+    credentials: true,
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
