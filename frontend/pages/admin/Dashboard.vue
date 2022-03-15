@@ -18,13 +18,21 @@
 export default {
     data() {
         return {
+            user: this.$store.userName,
             fixed: true,
         }
     },
     methods: {
         fixedCollapsed(bool) {
             this.fixed = bool;
+        },
+        async fetch() {
+            let data = await this.$axios.get('/user');
+            this.$store.dispatch('addUser', data.data);
         }
+    },
+    mounted() {
+        this.fetch();
     },
 
 }

@@ -8,7 +8,7 @@
         >
             <template slot="extra">
                 <a-button>
-                    {{ Login }}
+                    {{ $store.state.userName || login }}
                 </a-button>
             </template>
         </a-page-header>
@@ -20,9 +20,9 @@ export default {
     name: 'Header',
     data() {
         return {
-            Login: "Login中",
+            login: 'Login中',
         } 
-    }
+    },
 }
 </script>
 
