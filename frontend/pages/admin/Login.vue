@@ -5,19 +5,19 @@
                 <a-form-model 
                     ref="ruleForm"
                     layout="vertical"
-                    :model="data"
+                    :model="credentials"
                     :rules="rules"
                     @submit="onSubmit"
                     @submit.native.prevent
                     class="form"
                 >
                     <a-form-model-item :label="$t('userEmail')" prop="email">
-                    <a-input v-model="data.email" class="login-input">
+                    <a-input v-model="credentials.email" class="login-input">
                         <a-icon slot="prefix" type="mail" style="color:rgba(0,0,0,.25)" />
                     </a-input>
                     </a-form-model-item>
                     <a-form-model-item :label="$t('password')" prop="password">
-                    <a-input v-model="data.password" type="password" class="password-input">
+                    <a-input v-model="credentials.password" type="password" class="password-input">
                         <a-icon slot="prefix" type="lock" style="color:rgba(0,0,0,.25)" />
                     </a-input>
                     </a-form-model-item>
@@ -40,7 +40,7 @@
 export default {
     data() {
         return {
-            data: {
+            credentials: {
                 email: "",
                 password: "",
             },
@@ -77,14 +77,12 @@ export default {
             return this.$message.error(response.message.error, 2.5);
         },
         async handleSubmit() {
-            try {
-                await this.$axios.$get('/csrf-cookie');
-                let response = await this.$axios.$post('/login', this.data);
+            let response = await this.$store.dispatch('login', this.credentials);
+            if (response.status === 200) {
                 this.$router.push('/admin/dashboard');
                 this.$message.success(response.message.success, 2.5);
-            } catch (error) {
-                this.showErrorMessage(error.response.data);
-                console.log(error.response);
+            } else {
+                this.showErrorMessage(response);
             }
         }
     },

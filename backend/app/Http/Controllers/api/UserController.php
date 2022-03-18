@@ -32,14 +32,20 @@ class UserController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * sanctumで認証されている場合ユーザー情報を返す
      *
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request)
     {
-        //
+        $user = auth('sanctum')->user();
+
+        if (!$user) {
+            return response()->json(['status' => 404, 'message' => ['error' => 'ユーザーが見つかりません']], 404);
+        }
+
+        return response()->json(['status' => 200, 'user' => $user], 200);
     }
 
     /**
@@ -68,8 +74,11 @@ class UserController extends Controller
     /**
      * Login
      * 
-     * @param
-     * @return
+     * @param \App\Http\Requests\LoginRequest $request
+     * @return json {
+     *               'status': statusCode,
+     *               'message': {'success or error: messageBody'}
+     *              }
      */
     public function Login(LoginRequest $request)
     {
@@ -80,5 +89,15 @@ class UserController extends Controller
         } else {
             return response()->json(['status' => 400,'message' => ['error' => '登録されていません']], 400);
         }
+    }
+
+    /**
+     * logout
+     *
+     */
+    public function logout()
+    {
+        auth()->logout();
+        return response()->json(['status' => 200, 'message' => ['success' => 'ログアウトしました']], 200);
     }
 }

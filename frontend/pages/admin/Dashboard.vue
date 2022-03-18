@@ -27,8 +27,8 @@ export default {
             this.fixed = bool;
         },
         async fetch() {
-            let data = await this.$axios.get('/user');
-            this.$store.dispatch('addUser', data.data);
+            // let data = await this.$axios.get('/user');
+            // this.$store.dispatch('addUser', data.data);
         }
     },
     mounted() {

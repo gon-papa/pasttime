@@ -1,26 +1,42 @@
 export const state = () => ({
-    userId: '',
-    userName: '',
+    user: '',
+    isAuth: false,
 });
 
 export const mutations = {
-    initUser (state, user) {
-        state.userId = user.id;
-        state.userName = user.name;
+    set_auth (state, auth) {
+        state.isAuth = auth;
     },
 
-    removeUser (state) {
-        state.userId = '';
-        state.userName = '';
+    set_user (state, user) {
+        state.user = user;
     },
 };
 
 export const actions = {
-    addUser ({ commit }, user) {
-        commit('initUser', user);
-    },
+    async login({ commit }, credentials) {
+        try {
+            await this.$axios.$get('/csrf-cookie');
+            let response = await this.$axios.$post('/login', credentials);
+            let data = await this.$axios.$get('/user');
 
-    removeUser ({ commit }) {
-        commit('removeUser');
+            commit('set_auth', true);
+            commit('set_user', data.user);
+            return response;
+        } catch(err) {
+            console.log(err.response.data);
+            return err.response.data;
+        }
+    },
+    async logout({ commit }) {
+        let response = await this.$axios.$get('/logout');
+        try {
+            commit('set_auth', false);
+            commit('set_user', null);
+        } catch(err) {
+            console.log(err.response.data);
+            return err.response.data;
+        }
+        return response;
     }
 };

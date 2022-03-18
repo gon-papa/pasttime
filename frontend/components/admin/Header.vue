@@ -8,7 +8,10 @@
         >
             <template slot="extra">
                 <a-button>
-                    {{ $store.state.userName || login }}
+                    {{ $store.state.user.name || login }}
+                </a-button>
+                <a-button @click="logout">
+                    ログアウト
                 </a-button>
             </template>
         </a-page-header>
@@ -22,6 +25,16 @@ export default {
         return {
             login: 'Login中',
         } 
+    },
+    methods: {
+        async logout() {
+            let response = await this.$store.dispatch('logout');
+            if(response.status === 200) {
+                this.$message.success(response.message.success, 2.5);
+            } else {
+                this.$message.error('ログアウトできませんでした', 2.5);
+            }
+        }
     },
 }
 </script>
