@@ -27,6 +27,7 @@ export default {
     '@/plugins/axios',
     { src: '~/plugins/persistedstate.js', ssr: false},
   ],
+  ssr: false,
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -57,6 +58,11 @@ export default {
     credentials: true,
   },
 
+
+  router: {
+    middleware: 'auth'
+  },
+
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
   },
@@ -64,5 +70,5 @@ export default {
   server: {
     port: 3000,
     host: '0.0.0.0'
-  }
+  },
 }

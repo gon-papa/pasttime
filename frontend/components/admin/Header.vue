@@ -4,7 +4,6 @@
             :ghost="false"
             title="PAST←TIME"
             sub-title="~徒然と書く技術ブログ~"
-            @back="() => $router.go(-1)"
         >
             <template slot="extra">
                 <a-button>
@@ -30,6 +29,7 @@ export default {
         async logout() {
             let response = await this.$store.dispatch('logout');
             if(response.status === 200) {
+                location.reload();
                 this.$message.success(response.message.success, 2.5);
             } else {
                 this.$message.error('ログアウトできませんでした', 2.5);

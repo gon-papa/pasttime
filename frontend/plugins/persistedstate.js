@@ -1,7 +1,10 @@
 import createPersistedState from 'vuex-persistedstate'
 
 export default ({ store }) => {
-    createPersistedState({
-        key: 'pasttime'
-    })(store)
+    window.onNuxtReady(() => {
+        createPersistedState({
+            key: 'pasttime',
+            storage: window.sessionStorage
+        })(store)
+    });
 }
