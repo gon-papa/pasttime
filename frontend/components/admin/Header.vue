@@ -7,10 +7,7 @@
         >
             <template slot="extra">
                 <a-button>
-                    {{ $store.state.user.name || login }}
-                </a-button>
-                <a-button @click="logout">
-                    ログアウト
+                    {{ loginName }}
                 </a-button>
             </template>
         </a-page-header>
@@ -25,17 +22,12 @@ export default {
             login: 'Login中',
         } 
     },
-    methods: {
-        async logout() {
-            let response = await this.$store.dispatch('logout');
-            if(response.status === 200) {
-                location.reload();
-                this.$message.success(response.message.success, 2.5);
-            } else {
-                this.$message.error('ログアウトできませんでした', 2.5);
-            }
+    computed: {
+        loginName() {
+            let strageItem = JSON.parse(window.sessionStorage.getItem('pasttime'));
+            return this.login = strageItem.user.name;
         }
-    },
+    }
 }
 </script>
 

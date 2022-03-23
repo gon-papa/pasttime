@@ -31,5 +31,12 @@ export const actions = {
             return err.response.data;
         }
         return response;
-    }
+    },
+    nuxtClientInit({ commit }) {
+        const data = JSON.parse(sessionStorage.getItem('pasttime')) || []
+        console.log(data.user);
+        // if(data) {
+            commit('setUser', data.user);
+        // }
+    },
 };

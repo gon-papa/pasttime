@@ -52,6 +52,9 @@ export default {
     [
       "@nuxtjs/axios",
     ],
+    [
+      'nuxt-client-init-module',
+    ],
   ],
   axios: {
     baseURL: process.env.BASE_URL,

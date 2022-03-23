@@ -1,16 +1,22 @@
 <template>
     <div class="dashbord">
-        <AdminHeader />
-        <div>
-            <a-row>
-                <a-col :span="fixed? 2 : 5">
+        <a-layout>
+            <a-layout-header style="padding: 0;">
+                <AdminHeader />
+            </a-layout-header>
+            <a-layout>
+                <a-layout-sider 
+                    v-model="collapsed"
+                    @mouseenter="openCollapsed"
+                    @mouseleave="closeCollapsed"
+                >
                     <AdminSidebar @fixed="fixedCollapsed" />
-                </a-col>
-                <a-col :span="fixed? 22 : 19">
+                </a-layout-sider>
+                <a-layout-content style="padding: 15px;">
                     <AdminContents />
-                </a-col>
-            </a-row>
-        </div>
+                </a-layout-content>
+            </a-layout>
+        </a-layout>
     </div>
 </template>
 
@@ -20,21 +26,20 @@ export default {
         return {
             user: this.$store.userName,
             fixed: true,
+            collapsed: true,
         }
     },
     methods: {
         fixedCollapsed(bool) {
             this.fixed = bool;
         },
-        async fetch() {
-            // let data = await this.$axios.get('/user');
-            // this.$store.dispatch('addUser', data.data);
-        }
+        openCollapsed() {
+            if(this.fixed) this.collapsed = false;
+        },
+        closeCollapsed() {
+            if(this.fixed) this.collapsed = true;
+        },
     },
-    mounted() {
-        this.fetch();
-    },
-
 }
 </script>
 
