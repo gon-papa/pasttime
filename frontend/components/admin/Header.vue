@@ -4,11 +4,10 @@
             :ghost="false"
             title="PAST←TIME"
             sub-title="~徒然と書く技術ブログ~"
-            @back="() => $router.go(-1)"
         >
             <template slot="extra">
                 <a-button>
-                    {{ Login }}
+                    {{ loginName }}
                 </a-button>
             </template>
         </a-page-header>
@@ -20,8 +19,14 @@ export default {
     name: 'Header',
     data() {
         return {
-            Login: "Login中",
+            login: 'Login中',
         } 
+    },
+    computed: {
+        loginName() {
+            let strageItem = JSON.parse(window.sessionStorage.getItem('pasttime'));
+            return this.login = strageItem.user.name;
+        }
     }
 }
 </script>

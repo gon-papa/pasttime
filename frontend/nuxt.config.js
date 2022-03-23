@@ -23,8 +23,11 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
-    '@/plugins/antd-ui'
+    '@/plugins/antd-ui',
+    '@/plugins/axios',
+    { src: '~/plugins/persistedstate.js', ssr: false},
   ],
+  ssr: false,
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -45,8 +48,23 @@ export default {
       lazy: true,
       langDir: 'lang/',
       defaultLocale: 'ja'
-    }]
+    }],
+    [
+      "@nuxtjs/axios",
+    ],
+    [
+      'nuxt-client-init-module',
+    ],
   ],
+  axios: {
+    baseURL: process.env.BASE_URL,
+    credentials: true,
+  },
+
+
+  router: {
+    middleware: 'auth'
+  },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
@@ -55,5 +73,5 @@ export default {
   server: {
     port: 3000,
     host: '0.0.0.0'
-  }
+  },
 }

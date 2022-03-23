@@ -5,19 +5,19 @@
                 <a-form-model 
                     ref="ruleForm"
                     layout="vertical"
-                    :model="data"
+                    :model="credentials"
                     :rules="rules"
                     @submit="onSubmit"
                     @submit.native.prevent
                     class="form"
                 >
-                    <a-form-model-item :label="$t('userName')" prop="name">
-                    <a-input v-model="data.name" class="login-input">
-                        <a-icon slot="prefix" type="user" style="color:rgba(0,0,0,.25)" />
+                    <a-form-model-item :label="$t('userEmail')" prop="email">
+                    <a-input v-model="credentials.email" class="login-input">
+                        <a-icon slot="prefix" type="mail" style="color:rgba(0,0,0,.25)" />
                     </a-input>
                     </a-form-model-item>
                     <a-form-model-item :label="$t('password')" prop="password">
-                    <a-input v-model="data.password" type="password" class="password-input">
+                    <a-input v-model="credentials.password" type="password" class="password-input">
                         <a-icon slot="prefix" type="lock" style="color:rgba(0,0,0,.25)" />
                     </a-input>
                     </a-form-model-item>
@@ -40,12 +40,12 @@
 export default {
     data() {
         return {
-            data: {
-                name: "",
+            credentials: {
+                email: "",
                 password: "",
             },
             rules: {
-                name: [
+                email: [
                     { required: true, message: this.$t('validation.required'), trigger: 'blur' }
                 ],
                 password: [
@@ -65,8 +65,25 @@ export default {
                 }
             })
         },
-        handleSubmit() {
-            this.$router.push('/admin/dashboard');
+        showErrorMessage(response) {
+            if (response.message.hasOwnProperty('email')) {
+                return this.$message.error(response.message.email[0], 2.5);
+            }
+
+            if (response.message.hasOwnProperty('password')) {
+                return this.$message.error(response.message.password[0], 2.5);
+            }
+
+            return this.$message.error(response.message.error, 2.5);
+        },
+        async handleSubmit() {
+            let response = await this.$store.dispatch('login', this.credentials);
+            if (response.status === 200) {
+                this.$router.push('/admin/dashboard');
+                this.$message.success(response.message.success, 2.5);
+            } else {
+                this.showErrorMessage(response);
+            }
         }
     },
 }
