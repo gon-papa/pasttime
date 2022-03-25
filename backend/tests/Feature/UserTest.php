@@ -48,7 +48,7 @@ class UserTest extends TestCase
         $response->assertStatus(400)
                 ->assertJson([
                     'status' => 400,
-                    'message' => 'Unauthorized',
+                    'message' => ['error' => '登録されていません'],
                 ]);
     }
 
@@ -63,7 +63,7 @@ class UserTest extends TestCase
         $response->assertStatus(400);
         $response->assertJson([
             'status' => 400,
-            'errors' => [
+            'message' => [
                 'email' => [
                     'メールアドレスを入力してください'
                 ],

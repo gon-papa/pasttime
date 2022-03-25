@@ -1,7 +1,7 @@
 export default {
     welcome: 'ようこそ',
     login: 'ログイン',
-    userEmail: 'ユーザー名',
+    userEmail: 'メールアドレス',
     password: 'パスワード',
     validation: {
         required: '空白ではいけません',

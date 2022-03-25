@@ -3,15 +3,19 @@ import Login from '@/pages/admin/login.vue'
 
 describe('ログイン正常系', () => {
     const mockRouterPush = {
-        push: jest.fn()
+        push: jest.fn(),
+    }
+    const dispatch = {
+        dispatch: () => JSON.parse('{ "status": 200, "message": {"success": "ログインしました" }}'),
     }
     const wrapper = mount(Login, {
         mocks: {
-            $router: mockRouterPush
+            $router: mockRouterPush,
+            $store: dispatch,
         }
     });
-    test('ユーザー名入力欄が存在すること', () => {
-        expect(wrapper.text()).toMatch('ユーザー名');
+    test('メールアドレス入力欄が存在すること', () => {
+        expect(wrapper.text()).toMatch('メールアドレス');
         const loginInput = wrapper.findComponent('.login-input');
         expect(loginInput.exists()).toBe(true);
     });
@@ -25,25 +29,28 @@ describe('ログイン正常系', () => {
         expect(submit.exists()).toBe(true);
         expect(submit.findComponent('span').text()).toMatch('ログイン');
     });
-    test('正常にユーザー名とパスワードを入力後、サブミットしたらダッシュボードへ遷移する', () => {
+    test('正常にメールアドレスとパスワードを入力後、サブミットしたらダッシュボードへ遷移する', done => {
         const submit = wrapper.findComponent('form');
-        wrapper.findComponent('.login-input input').setValue('userName');
-        wrapper.findComponent('.password-input input').setValue('secret');
+        wrapper.findComponent('.login-input input').setValue('a@a.com');
+        wrapper.findComponent('.password-input input').setValue('password');
         submit.trigger('submit.prevent');
-        expect(mockRouterPush.push).toHaveBeenCalledWith('/admin/dashboard');
+
+        setTimeout(() => {
+            expect(mockRouterPush.push).toHaveBeenCalledWith('/admin/dashboard');
+            done();
+        });
     });
-    //バリデーションが効かないことのテスト
 });
 
 describe('ログイン異常系', () => {
     const wrapper = mount(Login);
 
-    test('ユーザー名が空白ならエラー出力のこと', done => {
+    test('メールアドレスが空白ならエラー出力のこと', done => {
         const submit = wrapper.findComponent('form');
         wrapper.findComponent('.login-input input').setValue('');
         submit.trigger('submit.prevent');
         setTimeout(() => {
-            expect(wrapper.text()).toMatch('name is required');
+            expect(wrapper.text()).toMatch('email is required');
             done()
         })
     });
@@ -75,10 +82,3 @@ describe('ログイン異常系', () => {
         })
     });
 });
-
-// data-test-id="test-target"
-//バリデーションテスト
-//dataの確認
-//フォームの送信作
-//フォームに送るデータ
-//サーバーからの失敗時の挙動
