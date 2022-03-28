@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\api\UserController;
+use App\Http\Controllers\api\BlogController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -20,4 +21,5 @@ Route::get('/logout', [UserController::class, 'logout']);
 
 Route::middleware('auth:sanctum')->group(function(){
     Route::get('/user', [UserController::class, 'show']);
+    Route::get('/admin/blogs/index', [BlogController::class, 'index']);
 });

@@ -26,7 +26,7 @@ class UserTest extends TestCase
         $this->post('/api/v1/csrf-cookie');
     }
 
-    /** @test  */
+    /** @test  Login*/
     function ログインに成功すると200を返し認証される()
     {
         $user = User::factory()->create();
@@ -37,7 +37,7 @@ class UserTest extends TestCase
         $response->assertStatus(200);
     }
 
-    /** @test  */
+    /** @test  Login*/
     function ログインに失敗した場合に400を返す()
     {
         User::factory()->create();
@@ -52,7 +52,7 @@ class UserTest extends TestCase
                 ]);
     }
 
-    /** @test  */
+    /** @test  Login*/
     function バリデーションエラーなら400を返し、エラーメッセージを返す()
     {
         User::factory()->create();
