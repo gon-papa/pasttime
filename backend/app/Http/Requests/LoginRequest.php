@@ -9,7 +9,7 @@ use Illuminate\Http\Exceptions\HttpResponseException;
 class LoginRequest extends FormRequest
 {
     /**
-     * FormRequestのるようが許可されているユーザーかを判断
+     * FormRequestが許可されているユーザーかを判断
      * trueなら許可、falseなら403を返し許可しないことを明示する
      * @return bool
      */

@@ -24,7 +24,6 @@ class BlogFactory extends Factory
             'body'        => $this->faker->realText($maxNbChars = 10, $indexSize = 2),
             'status'      => 1,
             'thummbnail'  => '"./strage/public/image/MyIcon.jpeg"',
-            'images_path' => json_encode(["./strage/public/image/MyIcon.jpeg"]),
         ];
     }
 }

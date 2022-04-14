@@ -20,7 +20,6 @@ return new class extends Migration
             $table->text('body');
             $table->integer('status');
             $table->string('thummbnail');
-            $table->json('images_path');
             $table->timestamps();
             $table->softDeletes();
         });
