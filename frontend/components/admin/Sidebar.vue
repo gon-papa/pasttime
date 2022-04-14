@@ -8,16 +8,22 @@
             <a-icon :type="fixed ? 'right' : 'left'" />
         </a-button>
         <a-menu-item key="1">
-            <a-icon type="inbox" />
-            <span>投稿一覧</span>
+            <nuxt-link to="/admin/BlogList">
+                <a-icon type="inbox" />
+                <span>投稿一覧</span>
+            </nuxt-link>
         </a-menu-item>
         <a-menu-item key="2">
-            <a-icon type="edit" />
-            <span>下書き一覧</span>
+            <nuxt-link to="/admin/BlogDraft">
+                <a-icon type="edit" />
+                <span>下書き一覧</span>
+            </nuxt-link>
         </a-menu-item>
         <a-menu-item key="3">
-            <a-icon type="picture" />
-            <span>画像アップロード</span>
+            <nuxt-link to="/admin/ImageUpload">
+                <a-icon type="picture" />
+                <span>画像アップロード</span>
+            </nuxt-link>
         </a-menu-item>
         <a-menu-item key="4" @click="logout">
             <a-icon type="user-delete" />

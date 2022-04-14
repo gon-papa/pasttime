@@ -36,7 +36,7 @@ describe('ログイン正常系', () => {
         submit.trigger('submit.prevent');
 
         setTimeout(() => {
-            expect(mockRouterPush.push).toHaveBeenCalledWith('/admin/dashboard');
+            expect(mockRouterPush.push).toHaveBeenCalledWith('/admin/bloglist');
             done();
         });
     });

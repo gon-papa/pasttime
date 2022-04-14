@@ -79,7 +79,7 @@ export default {
         async handleSubmit() {
             let response = await this.$store.dispatch('login', this.credentials);
             if (response.status === 200) {
-                this.$router.push('/admin/dashboard');
+                this.$router.push('/admin/bloglist');
                 this.$message.success(response.message.success, 2.5);
             } else {
                 this.showErrorMessage(response);

@@ -25,7 +25,10 @@ export default {
   plugins: [
     '@/plugins/antd-ui',
     '@/plugins/axios',
+    '@/plugins/day.js',
+    { src: '@/plugins/mixin-common-method.js', ssr:false },
     { src: '~/plugins/persistedstate.js', ssr: false},
+    { src: '@/plugins/vue-mavon-editor', ssr: false },
   ],
   ssr: false,
 
@@ -74,4 +77,9 @@ export default {
     port: 3000,
     host: '0.0.0.0'
   },
+
+  publicRuntimeConfig: {
+    BASE_URL: process.env.BASE_URL,
+    END_POINT: process.env.END_POINT,
+  }
 }
