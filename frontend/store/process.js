@@ -15,7 +15,6 @@ export const mutations = {
 export const actions = {
     isProcessing({ commit }) {
         commit('setProcess', true);
-        console.log('fafafa');
         setTimeout(() => {
             commit('setProcess', false);
         }, 1000);

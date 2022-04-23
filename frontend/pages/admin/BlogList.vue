@@ -9,7 +9,7 @@
             </div>
             <a-list-item slot="renderItem" key="item.title" slot-scope="item, index">
                 <template v-for="{ type, text } in actions" slot="actions">
-                    <span :key="type" @click="type === 'edit'? editBlog(item.id) : null">
+                    <span :key="type" @click="clickIcon(type, item.id)">
                         <a-icon :type="type" style="margin-right: 8px" />
                         {{ text }}
                     </span>
@@ -18,7 +18,7 @@
                     slot="extra"
                     width="272"
                     alt="logo"
-                    :src="imagesUrlCreate + item.thummbnail"
+                    :src="item.thummbnail"
                 />
                 <nuxt-link :to="{ name: 'admin-blogs-show-id___ja', params: { id: item.id } }">
                     <a-list-item-meta :description="item.body">
@@ -41,6 +41,7 @@
 
 <script>
 export default {
+    name: 'BlogList',
     layout: 'Layouts',
     data() {
         return {
@@ -62,28 +63,34 @@ export default {
             ],
         }
     },
-    computed: {
-        imagesUrlCreate: function() {
-            return this.$config.END_POINT;
-        },
-    },
     methods: {
+        clickIcon(type, itemId) {
+            type === 'edit'? this.editBlog(itemId) : null;
+            type === 'delete'? this.deleteBlog(itemId) : null;
+        },
         editBlog(id) {
             console.log(id);
             this.$router.push({ name: "admin-blogs-edit-id___ja", params: { id } })
         },
-        hideBottom() {
-            console.log('bottom');
+        async deleteBlog(id) {
+            console.log(id);
+            try {
+                let response = await this.$axios.delete('/admin/blogs/delete/' + id);
+                this.blogs = this.blogs.filter((blog, index) => {
+                    return blog.id !== id;
+                });
+                return this.$message.success('削除しました', 2.5);
+            } catch(err) {
+                console.log(err);
+            }
         },
         async init() {
             try {
                 let response = await this.$axios.$get('/admin/blogs/index');
                 this.blogs = response.blogs;
-                console.log(response.blogs);
             } catch(err) {
                 console.log(err.response);
             }
-            window.addEventListener("scroll", this.hideBottom);
         },
     },
     created() {

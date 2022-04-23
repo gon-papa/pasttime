@@ -11,6 +11,7 @@ export default {
         integer: '数値ではありません',
         max30: '30文字以内でなければなりません'
     },
+    delete: '削除しました',
     blog: 'ブログ',
     title: 'タイトル',
     create: '作成',
