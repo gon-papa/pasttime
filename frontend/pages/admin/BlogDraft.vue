@@ -1,15 +1,15 @@
 <template>
-    <div class="contents">
-        コンテンツ配置
+    <div>
+        下書き一覧
     </div>
 </template>
 
 <script>
 export default {
-
+    layout: 'Layouts',
 }
 </script>
 
-<style>
+<style scoped>
 
 </style>

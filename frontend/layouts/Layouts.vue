@@ -12,8 +12,8 @@
                 >
                     <AdminSidebar @fixed="fixedCollapsed" />
                 </a-layout-sider>
-                <a-layout-content style="padding: 15px;">
-                    <AdminContents />
+                <a-layout-content style="padding: 15px; height: 100vh;">
+                    <Nuxt />
                 </a-layout-content>
             </a-layout>
         </a-layout>
@@ -43,7 +43,6 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
 
 </style>
