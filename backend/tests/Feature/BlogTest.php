@@ -55,4 +55,55 @@ class BlogTest extends TestCase
 
         $response->assertStatus(500);
     }
+
+    /** @test store */
+    function ブログが作成される()
+    {
+        Sanctum::actingAs(
+            User::factory()->create(),
+            ['*']
+        );
+        $blog = [
+            'title' => 'test',
+            'body'  => 'body-test',
+            'status' => 1,
+            'thummbnail' => 'http://localhost/storage/images/pHhD0WxAK9vDFsnJzlfTKMC0nT5symfkVt2vRzF4.jpg',
+        ];
+
+        $response = $this->post('api/v1/admin/blogs/store', $blog);
+        $response->assertStatus(200)
+                ->assertJsonStructure([
+                    'status',
+                    'message' => [
+                        'success'
+                    ],
+                ]);
+    }
+
+    /** @test store */
+    function ブログが作成されない()
+    {
+        Sanctum::actingAs(
+            User::factory()->create(),
+            ['*']
+        );
+        $blog = [
+            'title' => '',
+            'body'  => '',
+            'status' => '',
+            'thummbnail' => '',
+        ];
+
+        $response = $this->post('api/v1/admin/blogs/store', $blog);
+        $response->assertStatus(400)
+                ->assertJsonStructure([
+                    'status',
+                    'message' => [
+                        'title',
+                        'body',
+                        'status',
+                        'thummbnail',
+                    ],
+                ]);
+    }
 }

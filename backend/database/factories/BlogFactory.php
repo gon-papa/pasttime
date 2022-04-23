@@ -23,7 +23,7 @@ class BlogFactory extends Factory
             'title'       => $this->faker->title(),
             'body'        => $this->faker->realText($maxNbChars = 10, $indexSize = 2),
             'status'      => 1,
-            'thummbnail'  => '"./strage/public/image/MyIcon.jpeg"',
+            'thummbnail'  => '"http://localhost/storage/images/MyIcon.jpeg"',
         ];
     }
 }
