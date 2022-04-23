@@ -100,4 +100,13 @@ class UserController extends Controller
         auth()->logout();
         return response()->json(['status' => 200, 'message' => ['success' => 'ログアウトしました']], 200);
     }
+
+    /**
+     * 認証チェック
+     */
+    public function checkAuth()
+    {
+        $result = auth()->check();
+        return response()->json(['status' => 200, 'message' => ['result' => $result], 200]);
+    }
 }
