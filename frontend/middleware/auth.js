@@ -1,10 +1,18 @@
-export default function ({ store, route, app }) {
+export default async function ({ store, route, app }) {
     if (route.name !== 'admin-Login___ja') {
-        let session = sessionStorage.getItem('pasttime');
-        let sessionItem = JSON.parse(session);
-        if(sessionItem.user == null){
-            console.log(app.router);
-            return app.router.push('/admin/login');
+        try {
+            let response = await app.$axios.$get('/check-auth');
+            if(!response.message.result) {
+                resetAuth();
+            }
+        } catch(err) {
+            console.log(err);
+            resetAuth();
         }
+    }
+
+    const resetAuth= () => {
+        sessionStorage.removeItem('pasttime');
+        return app.router.push('/admin/login');
     }
 }

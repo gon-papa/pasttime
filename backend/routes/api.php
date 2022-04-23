@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('/login', [UserController::class, 'login']);
 Route::get('/logout', [UserController::class, 'logout']);
+Route::get('/check-auth', [UserController::class, 'checkAuth']);
 
 Route::middleware('auth:sanctum')->group(function(){
     Route::get('/user', [UserController::class, 'show']);
