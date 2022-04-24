@@ -26,6 +26,10 @@
                         <a-avatar slot="avatar" :src="item.avatar" />
                     </a-list-item-meta>
                 </nuxt-link>
+                <a-tag :color="status[item.status].color">
+                    {{ status[item.status].text }}
+                    <!-- ステータスによって変更 -->
+                </a-tag>
                 {{ item.content }}
             </a-list-item>
         </a-list>
@@ -60,6 +64,11 @@ export default {
                 { type: 'message', text: '0' },
                 { type: 'delete', text: '削除' },
                 { type: 'edit', text: 'edit' },
+            ],
+            status: [
+                {text: '公開', color:'green'},// 0
+                {text: '下書き', color: 'pink'},// 1
+                {text: '非公開', color: 'red'},// 2
             ],
         }
     },
