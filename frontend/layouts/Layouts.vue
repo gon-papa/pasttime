@@ -22,6 +22,7 @@
 
 <script>
 export default {
+    name: 'Layout',
     data() {
         return {
             user: this.$store.userName,

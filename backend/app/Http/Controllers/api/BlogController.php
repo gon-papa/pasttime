@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\api;
 
+use App\Const\Blog as ConstBlog;
 use App\Http\Controllers\Controller;
 use App\Models\Blog;
 use Illuminate\Http\Request;
@@ -13,6 +14,12 @@ class BlogController extends Controller
     public function index()
     {
         $blogs = Blog::latest()->get();
+        return response()->json(['status' => 200, 'blogs' => $blogs], 200);
+    }
+
+    public function draftIndex()
+    {
+        $blogs = Blog::where('status', ConstBlog::DRAFT)->latest()->get();
         return response()->json(['status' => 200, 'blogs' => $blogs], 200);
     }
 

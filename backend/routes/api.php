@@ -24,6 +24,7 @@ Route::get('/check-auth', [UserController::class, 'checkAuth']);
 Route::middleware('auth:sanctum')->group(function(){
     Route::get('/user', [UserController::class, 'show']);
     Route::get('/admin/blogs/index', [BlogController::class, 'index']);
+    Route::get('/admin/blogs/draft-index', [BlogController::class, 'draftIndex']);
     Route::post('/admin/blogs/store', [BlogController::class, 'store']);
     Route::get('/admin/blogs/show/{id}', [BlogController::class, 'show']);
     Route::get('/admin/blogs/edit/{id}', [BlogController::class, 'edit']);
