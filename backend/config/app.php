@@ -191,7 +191,7 @@ return [
     */
 
     'aliases' => Facade::defaultAliases()->merge([
-        // ...
+        'BlogConst' => App\Const\Blog::class,
     ])->toArray(),
 
 ];
