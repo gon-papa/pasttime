@@ -3,6 +3,7 @@
         :default-selected-keys="['1']"
         mode="inline"
         theme="dark"
+        v-model="current"
     >
         <a-button class="sidebar-btn" @click="fixedCollapsed">
             <a-icon :type="fixed ? 'right' : 'left'" />
@@ -22,7 +23,7 @@
         <a-menu-item key="3">
             <nuxt-link to="/admin/ImageUpload">
                 <a-icon type="picture" />
-                <span>画像アップロード</span>
+                <span>画像一覧</span>
             </nuxt-link>
         </a-menu-item>
         <a-menu-item key="4" @click="logout">
@@ -37,6 +38,7 @@ export default {
     data() {
         return {
             fixed: true,
+            current: [],
         };
     },
     methods: {
@@ -53,6 +55,20 @@ export default {
                 this.$message.error('ログアウトできませんでした', 2.5);
             }
         },
+        selectedTab() {            
+            if(this.$route.path === "/admin/BlogDraft") {
+                return this.current[0] = "2";
+            }
+
+            if(this.$route.path === "/admin/ImageUpload") {
+                return this.current[0] = "3";
+            }
+
+            return this.current[0] = "1";
+        }
+    },
+    created() {
+        this.selectedTab();
     },
 };
 </script>

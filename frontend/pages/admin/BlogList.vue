@@ -16,9 +16,10 @@
                 </template>
                 <img
                     slot="extra"
-                    width="272"
+                    width="250px"
                     alt="logo"
                     :src="item.thummbnail"
+                    @error="noimage"
                 />
                 <nuxt-link :to="{ name: 'admin-blogs-show-id___ja', params: { id: item.id } }">
                     <a-list-item-meta :description="item.body">
@@ -101,6 +102,9 @@ export default {
                 console.log(err.response);
             }
         },
+        noimage(element){
+            element.target.src = require('@/assets/noimage.jpeg');
+        }
     },
     created() {
         this.init();
