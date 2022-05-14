@@ -14,6 +14,7 @@
 <script>
 export default {
     layout: 'Layouts',
+    name: 'imageUpload',
     data() {
         return {
             imagesUrl: [],

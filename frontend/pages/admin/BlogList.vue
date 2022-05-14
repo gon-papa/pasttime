@@ -50,7 +50,7 @@ export default {
     layout: 'Layouts',
     data() {
         return {
-            blogs: {},
+            blogs: [],
             pagination: {
                 onChange: page => {
                 console.log(page);
