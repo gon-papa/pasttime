@@ -1,15 +1,11 @@
 <template>
     <div>
-        <!-- 画像アップモーダル追加 -->
-        <!-- 画像アップロード機能追加 -->
-        <!-- クリップボードコピー作成 -->
-        <!-- ブログ作成、編集で画像一覧が出るように変更 -->
         <a-card title="アップロード画像一覧">
             <a-card-grid style="width:25%;height:250px;text-align:center;position:relative;" v-for="url in imagesUrl" :key="url" >
                 <a-button type="danger" class="delete-img" @click.prevent="imageDelete(url)">
                     <a-icon type="delete" theme="filled" />
                 </a-button>
-                <img :src="url">
+                <img :src="url" @click="copyURL(url)">
             </a-card-grid>
         </a-card>
     </div>
@@ -39,6 +35,17 @@ export default {
                 console.log(err);
                 this.$message.error('通信に失敗しました', 2.5);
             }
+        },
+        copyURL(url) {
+            let text = `![copyImage](${url})`
+            navigator.clipboard.writeText(text)
+            .then(() => {
+                this.$message.success('クリップボードにコピーしました', 2.5);
+            })
+            .catch(error => {
+                console.log(error);
+                this.$message.error('エラーが発生しました', 2.5);
+            })
         }
     },
     created() {

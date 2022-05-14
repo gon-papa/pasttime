@@ -27,6 +27,14 @@
                     </div>
                 </div>
             </a-form-model-item>
+            <div class="imageList">
+                <a-button type="primary" @click="showModal">
+                    画像一覧
+                </a-button>
+                <a-modal v-model="modalVisible" :footer="null" :width="1000">
+                    <ImageUpload />
+                </a-modal>
+            </div>
             <mavon-editor ref="editor" language="ja" v-model="blog.body" @imgAdd="$imgAdd" @imgDel="$imgDel" style="z-index: 0;" :htmlCode="true" />
             <a-form-model-item prop="status" style="marginTop: 15px">
                 <a-row type="flex" justify="end">
@@ -68,41 +76,43 @@
 </template>
 
 <script>
+import ImageUpload from "../../../pages/admin/ImageUpload.vue";
 const VISIBLE = 0;
 const DRAFT = 1;
 const INVISIBLE = 2;
 
 export default {
-    name: 'CreateEdit',
-    layout: 'Layouts',
+    name: "CreateEdit",
+    layout: "Layouts",
     props: {
         blog: {
             type: Object,
-            default:() => ({
-                title      : '',
-                body       : '',
-                status     : 1,
-                thummbnail : '',
+            default: () => ({
+                title: "",
+                body: "",
+                status: 1,
+                thummbnail: "",
             }),
         },
     },
     data() {
         return {
             createConfirm: false,
+            modalVisible: false,
             rules: {
                 title: [
-                    { required: true, message: this.$t('validation.required'), trigger: 'blur' },
-                    { max: 30, message: this.$t('validation.max30'), trigger: 'blur' },
+                    { required: true, message: this.$t("validation.required"), trigger: "blur" },
+                    { max: 30, message: this.$t("validation.max30"), trigger: "blur" },
                 ],
                 status: [
-                    { required: true, message: this.$t('validation.required'), trigger: 'change' },
+                    { required: true, message: this.$t("validation.required"), trigger: "change" },
                 ]
             }
-        }
+        };
     },
     computed: {
-        existThummbnail(){
-            return this.blog.thummbnail? true : false;
+        existThummbnail() {
+            return this.blog.thummbnail ? true : false;
         }
     },
     methods: {
@@ -116,7 +126,7 @@ export default {
         },
         async thummbnailDel() {
             await this.deleteImage(this.blog.thummbnail);
-            this.blog.thummbnail = '';
+            this.blog.thummbnail = "";
         },
         async $imgAdd(pos, $file) {
             let formData = this.createImageForm($file);
@@ -126,28 +136,30 @@ export default {
             }
         },
         async $imgDel(fileName) {
-            this.deleteImage(fileName[0])
+            this.deleteImage(fileName[0]);
         },
         async imageUpload(data) {
             try {
-                this.$store.dispatch('process/isProcessing');
-                return await this.$axios.$post('admin/blog/image', data);
-            } catch(err){
+                this.$store.dispatch("process/isProcessing");
+                return await this.$axios.$post("admin/blog/image", data);
+            }
+            catch (err) {
                 this.showErrorMessage(err.response.data);
-                            console.log(err.response)
+                console.log(err.response);
                 return err.response.data;
             }
         },
         async deleteImage(imageUrl) {
             try {
-                await this.$axios.$delete('admin/blog/image' + `?url=${imageUrl}`);
-            } catch(err) {
+                await this.$axios.$delete("admin/blog/image" + `?url=${imageUrl}`);
+            }
+            catch (err) {
                 console.log(err);
             }
         },
         createImageForm(data) {
             let formData = new FormData();
-            formData.append('image', data);
+            formData.append("image", data);
             return formData;
         },
         thummbnailUpload() {
@@ -163,18 +175,23 @@ export default {
             }
             this.onSubmit();
         },
+        showModal() {
+            this.modalVisible = true;
+        },
         onSubmit() {
-            this.$store.dispatch('process/isProcessing');
-            this.$refs.form.validate(async valid => {
-                if(valid) {
-                    this.$emit('blogPost', this.blog);
-                } else {
-                    console.log('validateError');
+            this.$store.dispatch("process/isProcessing");
+            this.$refs.form.validate(async (valid) => {
+                if (valid) {
+                    this.$emit("blogPost", this.blog);
+                }
+                else {
+                    console.log("validateError");
                     return false;
                 }
             });
         }
     },
+    components: { ImageUpload }
 }
 </script>
 
@@ -223,6 +240,16 @@ export default {
     }
     .status {
         width: 100px;
+    }
+}
+
+.imageList {
+    margin-bottom: 10px;
+    button {
+        padding: 0 20px;
+        border-radius: 100vh;
+        background-color: #4169e1;
+        font-size: 13px;
     }
 }
 </style>
