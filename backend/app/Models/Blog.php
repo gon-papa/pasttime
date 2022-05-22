@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -41,5 +42,14 @@ class Blog extends Model
         return Str::markdown($value, [
             'html_input' => 'escape',
         ]);
+    }
+
+    function getCreatedAtAttribute($value)
+    {
+        return $value ? Carbon::parse($value)->format('Y年m月d日h時m分') : null;
+    }
+    function getUpdatedAtAttribute($value)
+    {
+        return $value ? Carbon::parse($value)->format('Y年m月d日h時m分') : null;
     }
 }

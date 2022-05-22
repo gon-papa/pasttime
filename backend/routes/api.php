@@ -34,3 +34,8 @@ Route::middleware('auth:sanctum')->group(function(){
     Route::post('/admin/blog/image', [ImageController::class, 'store']);
     Route::delete('/admin/blog/image', [ImageController::class, 'destroy']);
 });
+
+// ゲストユーザー向けルーディング
+Route::get('/blogs/index', [BlogController::class, 'guestIndex']);
+Route::get('/blog/active-count', [BlogController::class, 'countVisibleTotalBlog']);
+Route::get('/blog/show/{id}', [BlogController::class, 'guestShow']);

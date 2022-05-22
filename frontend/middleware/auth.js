@@ -4,15 +4,17 @@ export default async function ({ store, route, app }) {
         app.router.push('/admin/login');
     }
 
-    if (route.name !== 'admin-Login___ja') {
-        try {
-            let response = await app.$axios.$get('/check-auth');
-            if(!response.message.result) {
+    if (route.name.match(/admin/)) {
+        if (route.name !== 'admin-Login___ja') {
+            try {
+                let response = await app.$axios.$get('/check-auth');
+                if(!response.message.result) {
+                    resetAuth();
+                }
+            } catch(err) {
+                console.log(err);
                 resetAuth();
             }
-        } catch(err) {
-            console.log(err);
-            resetAuth();
         }
     }
 }

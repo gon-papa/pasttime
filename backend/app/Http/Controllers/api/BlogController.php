@@ -23,6 +23,34 @@ class BlogController extends Controller
         return response()->json(['status' => 200, 'blogs' => $blogs], 200);
     }
 
+    public function guestIndex(Request $request)
+    {
+        $limit = $request->limit;
+
+        $blogs = BLog::select('id', 'title', 'body', 'thummbnail', 'created_at', 'updated_at')
+            ->where('status', ConstBlog::VISIBLE)
+            ->latest()
+            ->paginate($limit);
+
+        foreach ($blogs as $blog) {
+            $body = strip_tags($blog->body);
+            $wordCount = 200;
+            if(mb_strlen($body) > $wordCount) { 
+                $bodyCut = mb_substr($body, 0, $wordCount);
+                $blog->body = $bodyCut . '･･･' ;
+            }
+        }
+
+        return response()->json(['status' => 200, 'blogs' => $blogs], 200);
+    }
+
+    public function countVisibleTotalBlog()
+    {
+        $total = Blog::where('status', ConstBlog::VISIBLE)->count();
+
+        return response()->json(['status' => 200, 'total' => $total], 200);
+    }
+
     public function store(BlogRequest $request)
     {
         $blog = $request->all();
@@ -40,6 +68,20 @@ class BlogController extends Controller
     {
         $blog = Blog::find($id);
         return response()->json(['status' => 200, 'blog' => $blog], 200);
+    }
+
+    public function guestShow($id)
+    {
+        $blog = Blog::where(['id' => $id, 'status' => ConstBlog::VISIBLE])->first();
+        $planeBlog = $blog->getAttributes();
+        $planeBlog['created_at'] = $blog['created_at'];
+        $planeBlog['updated_at'] = $blog['updated_at'];
+
+        if(!$blog) {
+            return response()->json(['status' => 404, 'message' => ['error' => 'ブログが見つかりません'], 404]);
+        }
+
+        return response()->json(['status' => 200, 'blog' => $planeBlog], 200);
     }
 
     public function edit($id)
