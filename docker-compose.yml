@@ -19,6 +19,8 @@ services:
     expose:
       - "9000"
     working_dir: /var/www/backend
+    extra_hosts:
+    - "host.docker.internal:host-gateway"
   web:
     build: _docker/nginx
     container_name: ${APP_NAME}-web
@@ -29,6 +31,8 @@ services:
       - 80:80
     depends_on: 
       - backend
+    extra_hosts:
+    - "host.docker.internal:host-gateway"
   db:
     image: mariadb
     platform: linux/x86_64
