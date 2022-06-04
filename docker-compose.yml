@@ -9,6 +9,8 @@ services:
     tty: true
     ports:
     - 3000:3000
+    extra_hosts:
+    - "host.docker.internal:host-gateway"
   backend:
     build: _docker/backend-php
     container_name: ${APP_NAME}-backend
