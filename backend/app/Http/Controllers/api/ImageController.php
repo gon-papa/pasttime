@@ -48,9 +48,9 @@ class ImageController extends Controller
 
     public function checkEnv($path)
     {
-        if (config('APP_ENV') === 'production') {
-            return Storage::url($path);
+        if (config('APP_ENV') === 'local') {
+            return config('app.url') . Storage::url($path);
         }
-        return config('app.url') . Storage::url($path);
+        return Storage::url($path);
     }
 }
