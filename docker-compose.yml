@@ -2,7 +2,9 @@ version: "3"
 
 services:
   frontend:
-    build: _docker/frontend-node
+    build:
+      context: .
+      dockerfile: ./_docker/frontend-node/Dockerfile
     container_name: ${APP_NAME}-frontend
     volumes:
       - ./frontend:/app
