@@ -36,8 +36,12 @@ class ImageController extends Controller
     public function destroy(Request $request)
     {
         $url = $request->url;
-        $path = str_replace(config('app.url') . '/storage/images/', '', $url);
-        $result = Storage::delete('public/images/' . $path);
+        if (config('app.env') === 'local') {
+            $path = str_replace(config('app.url') . '/storage/images/', '', $url);
+            $result = Storage::delete('public/images/' . $path);
+        } else {
+            $result = Storage::delete($url);
+        }
 
         if($result) {
             return response()->json(['status'=> 200, 'success' => '画像を削除しました']);
@@ -48,7 +52,7 @@ class ImageController extends Controller
 
     public function checkEnv($path)
     {
-        if (config('APP_ENV') === 'local') {
+        if (config('app.env') === 'local') {
             return config('app.url') . Storage::url($path);
         }
         return Storage::url($path);
