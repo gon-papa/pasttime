@@ -14,7 +14,7 @@ class ImageController extends Controller
     {
         $allPath = collect(Storage::files('public/images/'));
         $allUrl = $allPath->map(function($path, $key) {
-            return config('app.url') . Storage::url($path);
+            return config('app.url') . Storage::path($path);
         });
 
         return response()->json(['allUrl' => $allUrl]);
@@ -26,7 +26,7 @@ class ImageController extends Controller
         $path = $image->store('public/images');
 
         if($path) {
-            $url = config('app.url') . Storage::url($path);
+            $url = config('app.url') . Storage::path($path);
             return response()->json(['status'=> 200, 'url' => $url, 'message' => ['success' => '画像をアップロードしました']]);
         }
 
