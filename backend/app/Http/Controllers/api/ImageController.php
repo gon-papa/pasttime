@@ -14,7 +14,7 @@ class ImageController extends Controller
     {
         $allPath = collect(Storage::files('public/images/'));
         $allUrl = $allPath->map(function($path, $key) {
-            return config('app.url') . Storage::path($path);
+            return $this->checkEnv($path);
         });
 
         return response()->json(['allUrl' => $allUrl]);
@@ -26,7 +26,7 @@ class ImageController extends Controller
         $path = $image->store('public/images');
 
         if($path) {
-            $url = config('app.url') . Storage::path($path);
+            $url = $this->checkEnv($path);
             return response()->json(['status'=> 200, 'url' => $url, 'message' => ['success' => '画像をアップロードしました']]);
         }
 
@@ -40,7 +40,8 @@ class ImageController extends Controller
             $path = str_replace(config('app.url') . '/storage/images/', '', $url);
             $result = Storage::delete('public/images/' . $path);
         } else {
-            $result = Storage::delete($url);
+            $fileName = str_replace($url, '', config('app.url'));
+            $result = Storage::delete($fileName);
         }
 
         if($result) {
@@ -48,5 +49,13 @@ class ImageController extends Controller
         }
 
         return response()->json(['status' => 400, 'message' => ['error' => '画像を削除できませんでした']]);
+    }
+
+    public function checkEnv($path)
+    {
+        if (config('app.env') === 'production') {
+            return config('app.url') . Storage::path($path);
+        }
+        return config('app.url') . Storage::url($path);
     }
 }
