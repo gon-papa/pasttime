@@ -13,8 +13,6 @@
             defaultOpen="preview"
             :toolbarsFlag="false"
         />
-        <div v-html="blog.body">
-
         </div>
     </div>
 </template>
