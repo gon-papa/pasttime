@@ -40,8 +40,8 @@ class ImageController extends Controller
             $path = str_replace(config('app.url') . '/storage/images/', '', $url);
             $result = Storage::delete('public/images/' . $path);
         } else {
-            $fileName = str_replace($url, '', config('app.url'));
-            $result = Storage::delete($fileName);
+            $fileName = explode('/', $url);
+            $result = Storage::disk('s3')->delete('/public/images/' . end($fileName));
         }
 
         if($result) {
