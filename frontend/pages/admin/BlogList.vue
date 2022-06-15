@@ -22,10 +22,12 @@
                     @error="noimage"
                 />
                 <nuxt-link :to="{ name: 'admin-blogs-show-id___ja', params: { id: item.id } }">
+                    <div class="description-wrapper">
                     <a-list-item-meta :description="item.body">
                         <a slot="title" :href="item.href">{{ item.title }}</a>
                         <a-avatar slot="avatar" :src="item.avatar" />
                     </a-list-item-meta>
+                    </div>
                 </nuxt-link>
                 <a-tag :color="status[item.status].color">
                     {{ status[item.status].text }}
@@ -113,6 +115,16 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.description-wrapper {
+    padding: 0 15px;
+    max-height: 190px;
+    min-width: 0;
+    overflow: hidden;
+    .ant-list-item-meta-description {
+        display: block;
+        overflow-wrap: break-word;
+    }
+}
 .create-blog {
     position: fixed;
     bottom: 5%;
